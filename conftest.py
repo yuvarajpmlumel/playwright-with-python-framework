@@ -17,3 +17,12 @@ def launch_url(page: Page):
         page.goto(full_url, timeout=60000)
         return page
     return _navigate
+
+@pytest.fixture
+def click_tab(page: Page):
+    def _click_tab(tab_name: str):
+        # If not found, click fallback based on tab_name
+        fallback_tab = f'//li[contains(@class,"tab-list-item")]//span[text()="{tab_name}"]'
+        page.locator(fallback_tab).click()
+        page.wait_for_timeout(2000)  # 2 seconds wait
+    return _click_tab
