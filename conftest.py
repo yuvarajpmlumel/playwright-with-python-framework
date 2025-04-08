@@ -1,15 +1,19 @@
 
 import pytest
 from playwright.sync_api import Page
+from dotenv import load_dotenv
+import os
 
-# Load variables from .env file
+# Load variables from .env
+load_dotenv()
 
+BASE_URL = os.getenv("BASE_URL")
 
-@pytest.fixture(scope="function", autouse=True)
-def setup_page(page: Page):
-    page.set_viewport_size({"width": 1270, "height": 709})
-    page.goto(
-    "https://inforiverwebtest-dev.azurewebsites.net/?csvLocation=Sanity.csv&config=Sanity.json&URLLoad=true",
-    timeout=90000  # timeout in milliseconds (60 seconds)
-)
-    yield page
+@pytest.fixture(autouse=True)
+def launch_url(page: Page):
+    def _navigate(endpoint: str):
+        page.set_viewport_size({"width": 1270, "height": 709})
+        full_url = f"{BASE_URL}{endpoint}"
+        page.goto(full_url, timeout=60000)
+        return page
+    return _navigate
