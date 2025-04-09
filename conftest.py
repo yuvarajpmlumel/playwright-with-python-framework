@@ -9,7 +9,7 @@ load_dotenv()
 
 BASE_URL = os.getenv("BASE_URL")
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(scope="function",autouse=True)
 def launch_url(page: Page):
     def _navigate(endpoint: str):
         page.set_viewport_size({"width": 1270, "height": 709})
