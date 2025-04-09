@@ -1,6 +1,6 @@
 from pages.Home.Home_Analyze.Search import Search
-from pages.Advanced.Advanced_Cells.EditCell import EditCell
-from pages.Advanced.Advanced_Cells.Invert import Invert
+from pages.Advanced import Advanced
+from pages.Advanced.Advanced_Cells import EditCell
 from appURL import appURL
 import pytest
 
@@ -8,15 +8,16 @@ import pytest
 def before_each(launch_url):
     launch_url(appURL.Search)
  
-def test_invert(page,click_tab):
+def test_invert2(page,click_tab):
     searchbar = Search(page)
-    editcell = EditCell(page)
-    invert = Invert(page)
+    advanced = Advanced(page)
+    # edit_cell = EditCell(page)
 
-    editcell.click_the_cell_static("3","0")
     click_tab("Insert")
-    invert.click_on_invert()
-
+    
+    # edit_cell.click_the_cell_static("3","0")
+    advanced.advanced_cell.edit_cell.click_the_cell_static("3","0")
+    advanced.advanced_cell.invert.click_on_invert()
     click_tab("Home")
     searchbar.click_search()
     searchbar.searchValue("-1039")
